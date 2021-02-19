@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhd.community.dao.UserMapper">
+
+    <sql id="insertFields">
+        username, password, salt, email, type, status, activation_code, header_url, create_time
+    </sql>
+
+    <sql id="selectFields">
+        id, username, password, salt, email, type, status, activation_code, header_url, create_time
+    </sql>
+
+    <select id="selectById" resultType="com.lhd.community.entity.User">
+        SELECT <include refid="selectFields"></include>
+        FROM user
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectByName" resultType="com.lhd.community.entity.User">
+        SELECT <include refid="selectFields"></include>
+        FROM user
+        WHERE username = #{username}
+    </select>
+
+    <select id="selectByEmail" resultType="com.lhd.community.entity.User">
+        SELECT <include refid="selectFields"></include>
+        FROM user
+        WHERE email = #{email}
+    </select>
+
+    <insert id="insertUser" parameterType="com.lhd.community.entity.User" keyProperty="id">
+        INSERT INTO user (<include refid="insertFields"></include>)
+        VALUES(#{username}, #{password}, #{salt}, #{email}, #{type}, #{status}, #{activationCode}, #{headerUrl}, #{createTime})
+    </insert>
+
+    <update id="updateStatus">
+        UPDATE user SET status = #{status} where id = #{id}
+    </update>
+
+    <update id="updateHeader">
+        UPDATE user SET header_url = #{headerUrl} where id = #{id}
+    </update>
+
+    <update id="updatePassword">
+        UPDATE user SET password = #{password} where id = #{id}
+    </update>
+
+</mapper>
